@@ -378,9 +378,9 @@ export function drawTitleScreen() {
         if (!splashElement) {
             splashElement = document.createElement("div");
             splashElement.id = "splash-text";
-            splashElement.style.position = "absolute";
-            splashElement.style.top = "20px";
-            splashElement.style.right = "20px";
+            splashElement.style.position = "fixed";
+            splashElement.style.top = "80px";
+            splashElement.style.right = "40px";
             splashElement.style.color = "#FFD700";
             splashElement.style.fontSize = "30px";
             splashElement.style.fontFamily = FONT_NAME;
@@ -388,16 +388,12 @@ export function drawTitleScreen() {
             splashElement.style.textAlign = "center";
             splashElement.style.whiteSpace = "nowrap";
             splashElement.style.textShadow = "3px 3px 8px rgba(0, 0, 0, 0.9)";
-            splashElement.style.zIndex = "10";
+            splashElement.style.zIndex = "100";
             splashElement.style.transform = "rotate(15deg)";
             splashElement.style.transformOrigin = "top right";
+            splashElement.style.pointerEvents = "none";
             
-            const container = document.getElementById("game-layout");
-            if (container) {
-                container.insertBefore(splashElement, container.firstChild);
-            } else {
-                document.body.insertBefore(splashElement, document.body.firstChild);
-            }
+            document.body.appendChild(splashElement);
         }
         splashElement.innerText = currentSplashText;
         splashElement.style.opacity = splashFlashOpacity;
@@ -433,6 +429,12 @@ export function drawMainMenu() {
     const titleText = document.getElementById("title-text");
     if (titleText) {
         titleText.style.display = "none";
+    }
+
+    // Hide splash text when leaving title screen
+    const splashElement = document.getElementById("splash-text");
+    if (splashElement) {
+        splashElement.style.display = "none";
     }
 
     // Hide catalogue on menu screen
