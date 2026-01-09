@@ -1,0 +1,204 @@
+@startuml
+' High-level class diagram covering core domain, CLI, and entities
+skinparam classAttributeIconSize 0
+skinparam arrowColor #555555
+skinparam classBackgroundColor #f8f8f8
+skinparam classBorderColor #333333
+skinparam shadowing false
+
+package "Core Domain" {
+  class Game_instance {
+    - template: Level_template
+    - gold: int
+    - grid: Tile[][]
+    - monsters: List<Entity>
+    - heros: List<Entity>
+    - buildings: List<Building>
+    - state: GAME_PHASE
+    - time_until_next_wave: int
+    - current_wave: int
+    - score: int
+    - wave_clock: int
+    - heros_left_to_spawn: List<(Entity,int)>
+    - finished: bool
+    - won: bool
+    - treasure: Treasure
+    + update(): List<Building>
+    + place(building: Building, pos: Pos)
+    + upgrade(building: Building)
+    + get_placeable_buildings(pos: Pos): List<Building>
+  }
+
+  enum GAME_PHASE {
+    BUILDING_PHASE
+    FIGHT_PHASE
+  }
+
+  class Level_template {
+    - name: str
+    - grid: List<List<Tile>>
+    - waves: List<Map<Entity,int>>
+    - treasure: Pos
+    - entrance: Pos
+  }
+
+  class Tile {
+    - type: TILES_TYPES
+    - walkable: bool
+    - buildable: bool
+    - ascii: str
+  }
+
+  enum TILES_TYPES {
+    VOID
+    BASIC_WALL
+    BASIC_FLOOR
+    BASIC_BUILDING
+    TREASURE
+    ENTRANCE
+  }
+
+  class Pos {
+    - x: int
+    - y: int
+    + dist(p: Pos): int
+  }
+
+  class Treasure {
+    - pos: Pos
+    - jewels: List<Jewel>
+    - jewels_left: int
+    + update()
+    + game_lost(): bool
+  }
+
+  class Jewel {
+    - pos: Pos
+    - carried: bool
+    - carrier: Entity
+    - present: bool
+    + take(carrier: Entity)
+    + drop()
+    + update()
+  }
+
+  abstract class Building {
+    - pos: Pos
+    - cost: List<int>
+    - building_restriction: List<TILES_TYPES>
+    - level: int
+    - name: str
+    - dead: bool
+    + get_range_of_effect(): int
+    + damage(e: Entity)
+    + place_to(p: Pos): Building
+    + attack(enemies: List<Entity>): bool
+    + upgrade()
+    + is_upgradable(): bool
+    + get_construction_cost(): int
+    + get_upgrade_cost(): int
+    + get_short_desc(): str
+    + get_long_desc(): str
+  }
+
+  class Tower extends Building {
+    - base_range: int
+    - maxhp: int
+    - hp: int
+    + get_range(): int
+    + get_hp(): int
+    + get_maxhp(): int
+    + take_damage(i: int)
+  }
+
+  class Trap extends Building {
+    - number_of_activations: int
+    + activate()
+  }
+}
+
+package "Entities" {
+  class Entity {
+    - name: str
+    - dead: bool
+    - position: Pos
+    - is_ally: bool
+    - maxhp: int
+    - hp: int
+    - strength: int
+    - has_jewel: bool
+    - home: Pos
+    - speed: int
+    - clock: int
+    - ai: STRATS
+    + attack(other: Entity)
+    + take_damage(n: int)
+    + set_ai(ai: STRATS)
+    + get_ai(): STRATS
+    + get_hp(): int
+    + get_max_hp(): int
+    + get_speed(): int
+  }
+
+  enum STRATS {
+    RUNNER
+    SMARTER
+    ATTACK
+  }
+
+  class Paladin extends Entity
+  class Rat extends Entity
+  class Eel extends Entity
+  class Clod extends Entity
+  class Seal extends Entity
+  class Fih extends Entity
+  class Turtle extends Entity
+  class Liar extends Entity
+}
+
+package "Buildings Catalog" {
+  class ArcherTower extends Tower
+  class ElectricTower extends Tower
+  class PlaceableWall extends Tower
+  class ExplosiveTrap extends Trap
+  class Pitfall extends Trap
+}
+
+' Relationships
+Game_instance --> Level_template
+Game_instance o-- Treasure
+Game_instance o-- "grid" Tile
+Game_instance o-- "monsters" Entity
+Game_instance o-- "heros" Entity
+Game_instance o-- "buildings" Building
+Treasure o-- Jewel
+Building --> Pos
+Building --> TILES_TYPES
+Entity --> Pos
+Level_template o-- "grid" Tile
+Level_template --> Pos : entrance
+Level_template --> Pos : treasure
+
+' Specializations
+Tower --|> Building
+Trap --|> Building
+ArcherTower --|> Tower
+ElectricTower --|> Tower
+PlaceableWall --|> Tower
+ExplosiveTrap --|> Trap
+Pitfall --|> Trap
+
+Paladin --|> Entity
+Rat --|> Entity
+Eel --|> Entity
+Clod --|> Entity
+Seal --|> Entity
+Fih --|> Entity
+Turtle --|> Entity
+Liar --|> Entity
+
+Entity --> STRATS
+Tile --> TILES_TYPES
+Game_instance --> GAME_PHASE
+
+@enduml

@@ -1,0 +1,14 @@
+X_MAX = 16
+Y_MAX = 16
+
+MAX_SPLASH_LEN = Y_MAX + 30 - 2
+MAX_MAP_NAME_LEN = 20
+
+MAPS_PATH = "./data/maps"
+NB_JEWELS = 5
+
+BUILDING_TIME = 30  # in seconds
+WAVE_CLOCK = 5 # in amount of updates
+
+BASE_GOLD = 2500
+MONEY_PER_WAVE = 1000

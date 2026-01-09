@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "duuuude"
+version = "0.1.0"
+description = "Crawling up your dungeon"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.setuptools]
+packages = ["core", "cli"]
+package-dir = {"" = "src"}

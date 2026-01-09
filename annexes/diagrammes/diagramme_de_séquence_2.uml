@@ -1,0 +1,81 @@
+@startuml Sunken Treasure Defense - Tour Défense Détaillée
+!theme plain
+skinparam sequence {
+    ArrowColor #27AE60
+    ActorBackgroundColor #ABEBC6
+    ActorBorderColor #145A32
+    ParticipantBackgroundColor #D5F4E6
+    ParticipantBorderColor #145A32
+    LifeLineBackgroundColor #EAFAF1
+    LifeLineBorderColor #27AE60
+    MessageTextAlignment center
+    FontName Arial
+    FontSize 11
+    FontColor #145A32
+}
+
+actor Joueur as J
+participant "Système\nde Ressources" as Resources
+participant "Grille\nde Jeu" as Grid
+participant "Tour/Piège" as Defense
+participant "Système\nde Détection" as Detection
+participant "Ennemi" as Enemy
+
+J -> Grid: Sélectionner case vide
+activate Grid
+
+J -> Resources: Vérifier ressources
+activate Resources
+Resources -> J: Coûts affichés
+deactivate Resources
+
+alt Ressources suffisantes
+    J -> Grid: Placer tour/piège
+    Grid -> Defense: Créer défense
+    activate Defense
+    
+    J -> Resources: Dépenser ressources
+    activate Resources
+    Resources -> Resources: Mettre à jour inventaire
+    deactivate Resources
+    
+    J -> Defense: Configurer (portée, type, power-ups)
+    
+    Detection -> Grid: Scanner grille\n(tour.portée)
+    activate Detection
+    
+    loop Chaque ennemi dans portée
+        Detection -> Enemy: Ennemi détecté? ✓
+        activate Enemy
+        
+        alt Tour prête (recharge complète)
+            Defense -> Enemy: Attaquer avec (damage, effects)
+            Enemy -> Enemy: Subir dégâts
+            
+            alt Ennemi survit
+                Enemy -> Enemy: Knockback/ralentissement
+                Enemy -> Grid: Nouvelle position
+            else Ennemi éliminé
+                Enemy -> Resources: Donner récompense\n(pièces, XP)
+                Resources -> Resources: Ajouter ressources
+                Enemy --> Enemy: ✗ Supprimé
+            end
+        else Tour en recharge
+            Detection -> Detection: Attendre rechargement
+        end
+        
+        deactivate Enemy
+    end
+    
+    deactivate Detection
+    deactivate Defense
+    
+else Ressources insuffisantes
+    Resources -> J: ✗ Placement impossible
+    deactivate Resources
+    deactivate Grid
+end
+
+J -> J: Continuer stratégie défense
+
+@enduml

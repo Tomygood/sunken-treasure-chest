@@ -1,0 +1,72 @@
+@startuml Sunken Treasure Defense - Gameplay Loop
+!theme plain
+skinparam sequence {
+    ArrowColor #2E86C1
+    ActorBackgroundColor #AED6F1
+    ActorBorderColor #1F618D
+    ParticipantBackgroundColor #D6EAF8
+    ParticipantBorderColor #1F618D
+    LifeLineBackgroundColor #EBF5FB
+    LifeLineBorderColor #2E86C1
+    MessageTextAlignment center
+    FontName Arial
+    FontSize 11
+    FontColor #1F618D
+}
+
+actor Joueur as J
+participant "Gestionnaire\nde Jeu" as Game
+participant "Vague\nd'Ennemis" as Wave
+participant "Défense\n(Tours/Pièges)" as Defense
+participant "Coffre\nau Trésor" as Treasure
+
+J -> Game: Lancer le jeu
+activate Game
+
+Game -> Wave: Initialiser vague 1
+activate Wave
+
+loop Chaque vague
+    J -> Game: Placer tours/pièges
+    activate Defense
+    
+    Game -> Defense: Déployer défenses
+    
+    Wave -> Defense: Ennemis arrivent par vagues
+    activate Wave
+    
+    alt Ennemi touche tour/piège
+        Defense -> Wave: Infliger dégâts
+        Wave -> Wave: Ennemi éliminé
+        J -> Game: Gagner ressources
+    else Ennemi esquive
+        Wave -> Treasure: Ennemi approche trésor
+    end
+    
+    alt Défenses détruisent tous les ennemis
+        Game -> Game: Vague complétée ✓
+        J -> Game: Ressources gagnées
+        Game -> Wave: Préparer prochaine vague
+    else Ennemi atteint trésor
+        activate Treasure
+        Treasure -> Treasure: Subir dégâts
+        Treasure -> Game: Santé du trésor ↓
+        deactivate Treasure
+        
+        alt Santé du trésor = 0
+            Game -> Game: Game Over ✗
+            J -> Game: Fin de partie
+        else Continuer
+            Game -> Wave: Prochaine vague
+        end
+    end
+    
+    deactivate Defense
+    deactivate Wave
+end
+
+Game -> J: Résultats finaux\n(Score, vagues, ressources)
+deactivate Game
+deactivate Wave
+
+@enduml
