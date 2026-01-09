@@ -62,7 +62,7 @@ async function add_to_nexts(){
     }
 
 
-    const response = await fetch("http://127.0.0.1:8000/game-update", {
+    const response = await fetch("/game-update", {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json'

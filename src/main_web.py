@@ -1,5 +1,6 @@
 from typing import Any,Dict, List
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
 from os import listdir
@@ -11,6 +12,15 @@ from .core.game_instance import Game_instance, GAME_PHASE
 from .core.utils_types import Pos
 from .core.buildings.all_buildings import ALL_BUILDINGS
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 
