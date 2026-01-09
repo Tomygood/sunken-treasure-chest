@@ -382,14 +382,14 @@ export function drawTitleScreen() {
             splashElement.style.top = "20px";
             splashElement.style.right = "20px";
             splashElement.style.color = "#FFD700";
-            splashElement.style.fontSize = "48px";
+            splashElement.style.fontSize = "30px";
             splashElement.style.fontFamily = FONT_NAME;
             splashElement.style.fontWeight = "bold";
             splashElement.style.textAlign = "center";
             splashElement.style.whiteSpace = "nowrap";
             splashElement.style.textShadow = "3px 3px 8px rgba(0, 0, 0, 0.9)";
             splashElement.style.zIndex = "10";
-            splashElement.style.transform = "rotate(-15deg)";
+            splashElement.style.transform = "rotate(15deg)";
             splashElement.style.transformOrigin = "top right";
             
             const container = document.getElementById("game-layout");
