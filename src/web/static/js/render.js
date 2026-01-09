@@ -379,10 +379,9 @@ export function drawTitleScreen() {
             splashElement = document.createElement("div");
             splashElement.id = "splash-text";
             splashElement.style.position = "fixed";
-            splashElement.style.top = "80px";
-            splashElement.style.right = "40px";
+            splashElement.style.top = "100px";
+            splashElement.style.right = "120px";
             splashElement.style.color = "#FFD700";
-            splashElement.style.fontSize = "30px";
             splashElement.style.fontFamily = FONT_NAME;
             splashElement.style.fontWeight = "bold";
             splashElement.style.textAlign = "center";
@@ -390,12 +389,29 @@ export function drawTitleScreen() {
             splashElement.style.textShadow = "3px 3px 8px rgba(0, 0, 0, 0.9)";
             splashElement.style.zIndex = "100";
             splashElement.style.transform = "rotate(15deg)";
-            splashElement.style.transformOrigin = "top right";
+            splashElement.style.transformOrigin = "center";
             splashElement.style.pointerEvents = "none";
             
             document.body.appendChild(splashElement);
         }
         splashElement.innerText = currentSplashText;
+        
+        // Calculate dynamic font size based on text length
+        const textLength = currentSplashText.length;
+        let fontSize;
+        if (textLength <= 10) {
+            fontSize = 28;
+        } else if (textLength <= 20) {
+            fontSize = 24;
+        } else if (textLength <= 30) {
+            fontSize = 18;
+        } else if (textLength <= 50) {
+            fontSize = 14;
+        } else {
+            fontSize = 12;
+        }
+        splashElement.style.fontSize = fontSize + "px";
+        
         splashElement.style.opacity = splashFlashOpacity;
         splashElement.style.display = "block";
     }
