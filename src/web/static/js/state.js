@@ -56,9 +56,9 @@ export function selectRandomSplashText() {
 export function updateSplashFlash() {
     const elapsed = Date.now() - splashFlashStart;
     if (elapsed < SPLASH_FLASH_DURATION) {
-        // Fade from 1 to 0.3 and back
-        const progress = (elapsed / SPLASH_FLASH_DURATION) * Math.PI;
-        splashFlashOpacity = 0.3 + (Math.cos(progress) * 0.7) / 2 + 0.35;
+        // Fade from 1 to 0.5 smoothly
+        const progress = (elapsed / SPLASH_FLASH_DURATION) * Math.PI * 2;
+        splashFlashOpacity = 0.5 + (Math.sin(progress) * 0.5);
     }
 }
 

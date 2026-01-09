@@ -374,18 +374,29 @@ export function drawTitleScreen() {
     // Draw splash text if available
     if (currentSplashText) {
         updateSplashFlash();
-        ctx.save();
-        ctx.globalAlpha = splashFlashOpacity;
-        ctx.font = 'bold 16px "Press Start 2P", "Courier New", monospace';
-        ctx.fillStyle = "#FFD700";
-        ctx.textAlign = "center";
-        ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-        ctx.shadowBlur = 4;
-        ctx.shadowOffsetX = 2;
-        ctx.shadowOffsetY = 2;
-        const splashY = canvas.height * 0.85;
-        ctx.fillText(currentSplashText, canvas.width / 2, splashY);
-        ctx.restore();
+        let splashElement = document.getElementById("splash-text");
+        if (!splashElement) {
+            splashElement = document.createElement("div");
+            splashElement.id = "splash-text";
+            splashElement.style.position = "fixed";
+            splashElement.style.color = "#FFD700";
+            splashElement.style.fontSize = "18px";
+            splashElement.style.fontFamily = FONT_NAME;
+            splashElement.style.textAlign = "center";
+            splashElement.style.width = "100%";
+            splashElement.style.marginTop = "-40px";
+            splashElement.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.8)";
+            
+            const container = document.getElementById("canvas-container");
+            if (container) {
+                container.parentElement.insertBefore(splashElement, container);
+            } else {
+                document.body.insertBefore(splashElement, document.body.firstChild);
+            }
+        }
+        splashElement.innerText = currentSplashText;
+        splashElement.style.opacity = splashFlashOpacity;
+        splashElement.style.display = "block";
     }
 
     // Create or update text element under canvas
