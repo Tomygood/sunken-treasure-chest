@@ -2,7 +2,7 @@ import { draw, loadAssets, loadMapList } from './render.js';
 import { startGame } from './network.js';
 import { initInput } from './input.js'; 
 import { playSound } from './sound.js';
-import { state, advence_state, setHasChanged, inCutscene, onTitleScreen, inMenu } from './state.js';
+import { state, advence_state, setHasChanged, inCutscene, onTitleScreen, inMenu, loadSplashTexts } from './state.js';
 
 
 
@@ -20,6 +20,7 @@ async function init() {
     console.log("Preloading images...");
     await loadAssets();
     await loadMapList();
+    await loadSplashTexts();
     
     console.log("Assets loaded. Displaying Main Menu.");
     

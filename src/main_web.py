@@ -167,4 +167,15 @@ def delete_building(G: Dict[Any, Any]):
     return to_dict(g)
 
 
+@app.get("/splash-texts")
+def get_splash_texts():
+    try:
+        with open("data/splash_text.txt", "r") as f:
+            texts = [line.strip() for line in f.readlines() if line.strip()]
+        return texts
+    except Exception as e:
+        print(f"Failed to load splash texts: {e}")
+        return ["Error loading splash texts!"]
+
+
 app.mount("/", StaticFiles(directory="src/web/static", html=True), name="static")

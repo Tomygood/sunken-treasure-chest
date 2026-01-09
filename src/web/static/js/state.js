@@ -25,6 +25,43 @@ export let HasChanged = false
 
 const FONT_NAME = '"Press Start 2P", "Courier New", monospace';
 
+// Splash text state
+export let splashTexts = [];
+export let currentSplashText = "";
+export let splashFlashOpacity = 1;
+const SPLASH_FLASH_DURATION = 3000; // 3 seconds
+let splashFlashStart = 0;
+
+export async function loadSplashTexts() {
+    try {
+        const response = await fetch("/splash-texts");
+        if (!response.ok) throw new Error(`Failed to load splash texts: ${response.status}`);
+        splashTexts = await response.json();
+        selectRandomSplashText();
+    } catch (error) {
+        console.error("Failed to load splash texts:", error);
+        splashTexts = ["Error loading splash texts!"];
+        currentSplashText = splashTexts[0];
+    }
+}
+
+export function selectRandomSplashText() {
+    if (splashTexts.length > 0) {
+        currentSplashText = splashTexts[Math.floor(Math.random() * splashTexts.length)];
+        splashFlashStart = Date.now();
+        splashFlashOpacity = 1;
+    }
+}
+
+export function updateSplashFlash() {
+    const elapsed = Date.now() - splashFlashStart;
+    if (elapsed < SPLASH_FLASH_DURATION) {
+        // Fade from 1 to 0.3 and back
+        const progress = (elapsed / SPLASH_FLASH_DURATION) * Math.PI;
+        splashFlashOpacity = 0.3 + (Math.cos(progress) * 0.7) / 2 + 0.35;
+    }
+}
+
 export function setHasChanged(value) {
     HasChanged = value;
 }

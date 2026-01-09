@@ -1,5 +1,5 @@
 import { TILE_SIZE, ASSETS, BESTIARY } from './config.js';
-import { placeable_buildings, state, inMenu, onTitleScreen, inCutscene } from './state.js';
+import { placeable_buildings, state, inMenu, onTitleScreen, inCutscene, loadSplashTexts, currentSplashText, splashFlashOpacity, updateSplashFlash, selectRandomSplashText } from './state.js';
 import { transform_mat } from './transform_mat.js';
 import { completeCutsceneAndStartGame } from './network.js';
 import { playSound } from './sound.js';
@@ -369,6 +369,23 @@ export function drawTitleScreen() {
         }
         
         ctx.drawImage(titleAsset.img, drawX, drawY, drawWidth, drawHeight);
+    }
+
+    // Draw splash text if available
+    if (currentSplashText) {
+        updateSplashFlash();
+        ctx.save();
+        ctx.globalAlpha = splashFlashOpacity;
+        ctx.font = 'bold 16px "Press Start 2P", "Courier New", monospace';
+        ctx.fillStyle = "#FFD700";
+        ctx.textAlign = "center";
+        ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        const splashY = canvas.height * 0.85;
+        ctx.fillText(currentSplashText, canvas.width / 2, splashY);
+        ctx.restore();
     }
 
     // Create or update text element under canvas
