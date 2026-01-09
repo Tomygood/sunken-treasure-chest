@@ -536,7 +536,7 @@ export function drawGameInfo() {
         };
         skipBtn.onclick = () => {
             state.time_until_next_wave = 0;
-            playSound("./assets/sound/alert.mp3",0.5)
+            playSound("/assets/sound/alert.mp3",0.5)
             console.log("Skipping to next wave");
         };
         
@@ -736,7 +736,7 @@ function updateEndOverlay() {
             };
             
             // Play gameover music
-            playSound('./assets/sound/gameover.mp3');
+            playSound('/assets/sound/gameover.mp3');
             
             document.body.appendChild(overlay);
         }
@@ -967,7 +967,7 @@ export function drawCutscene() {
         };
         
         // Play intro music and auto-advance when it ends
-        const introAudio = new Audio('./assets/sound/intro.mp3');
+        const introAudio = new Audio('/assets/sound/intro.mp3');
         introAudio.play().catch((error) => {
             console.error("Audio playback failed:", error);
         });

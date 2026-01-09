@@ -234,7 +234,7 @@ export function drawBuildableBuildings() {
                         const newData = await response.json();
                         updateGlobalState(newData);
                         setHasChanged(true);
-                        playSound("./assets/sound/buybuilding.wav",0.5)
+                        playSound("/assets/sound/buybuilding.wav",0.5)
                         state.selectedPos = null;
                         placeable_buildings.length = 0;
                         drawBuildableBuildings();
@@ -303,7 +303,7 @@ export function drawBuildableBuildings() {
 
                     if (!response.ok) throw new Error(`Server Error: ${response.status}`);
                     const newData = await response.json();
-                    playSound("./assets/sound/buybuilding.wav",0.5)
+                    playSound("/assets/sound/buybuilding.wav",0.5)
                     updateGlobalState(newData);
                     setHasChanged(true);
                     state.selectedPos = null;

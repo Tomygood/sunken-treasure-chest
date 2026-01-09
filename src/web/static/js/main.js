@@ -43,7 +43,7 @@ async function init() {
             if (currentTime - lastCountdownTime >= COUNTDOWN_INTERVAL) {
                 if (typeof state.time_until_next_wave === 'number' && state.time_until_next_wave > 0) {
                     if (state.time_until_next_wave === 1) {
-                        playSound("./assets/sound/alert.mp3",0.5)
+                        playSound("/assets/sound/alert.mp3",0.5)
                     }
                     state.time_until_next_wave -= 1;
                     setHasChanged(true)

@@ -50,7 +50,7 @@ export function initInput(onStartGame) {
                     if (hit) {
                         console.log("Starting level", card.id, card.name);
                         if (onStartGame) onStartGame(card.id);
-                        playSound("./assets/sound/hitHurt.wav",0.5);
+                        playSound("/assets/sound/hitHurt.wav",0.5);
                         break;
                     }
                 }
