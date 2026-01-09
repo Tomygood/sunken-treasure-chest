@@ -378,18 +378,23 @@ export function drawTitleScreen() {
         if (!splashElement) {
             splashElement = document.createElement("div");
             splashElement.id = "splash-text";
-            splashElement.style.position = "fixed";
+            splashElement.style.position = "absolute";
+            splashElement.style.top = "20px";
+            splashElement.style.right = "20px";
             splashElement.style.color = "#FFD700";
-            splashElement.style.fontSize = "18px";
+            splashElement.style.fontSize = "48px";
             splashElement.style.fontFamily = FONT_NAME;
+            splashElement.style.fontWeight = "bold";
             splashElement.style.textAlign = "center";
-            splashElement.style.width = "100%";
-            splashElement.style.marginTop = "-40px";
-            splashElement.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.8)";
+            splashElement.style.whiteSpace = "nowrap";
+            splashElement.style.textShadow = "3px 3px 8px rgba(0, 0, 0, 0.9)";
+            splashElement.style.zIndex = "10";
+            splashElement.style.transform = "rotate(-15deg)";
+            splashElement.style.transformOrigin = "top right";
             
-            const container = document.getElementById("canvas-container");
+            const container = document.getElementById("game-layout");
             if (container) {
-                container.parentElement.insertBefore(splashElement, container);
+                container.insertBefore(splashElement, container.firstChild);
             } else {
                 document.body.insertBefore(splashElement, document.body.firstChild);
             }
