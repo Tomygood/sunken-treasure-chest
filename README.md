@@ -4,8 +4,6 @@
 
 Sunken Treasure Chest Defense Ultra is a terminal and web-based game where you defend your treasure chest from waves of enemies using various weapons and strategies.
 
-Demo video: https://www.youtube.com/watch?v=dQw4w9WgXcQ
-
 Having Python 3.8+ installed, you can run the game in two different modes: terminal or web.
 But before that, install the required dependencies:
 
